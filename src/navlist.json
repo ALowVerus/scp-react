@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "name": "Mainlist",
+    "target": "mainlist"
+  },
+  {
+    "id": 1,
+    "name": "TestPage",
+    "target": "testpage"
+  }
+]
