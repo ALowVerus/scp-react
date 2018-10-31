@@ -35,7 +35,7 @@ class Hubs extends Component {
             {this.state.canons.map(function(canon){
               let encoded_url = encodeURIComponent(canon.url);
               return (
-                <Link to={"/page/" + encoded_url} key={encoded_url}>
+                <Link to={process.env.PUBLIC_URL + "page/" + encoded_url} key={encoded_url}>
                   <li className="list-group-item">
                     {canon.url}
                   </li>
