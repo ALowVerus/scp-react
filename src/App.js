@@ -34,10 +34,10 @@ class App extends Component {
               classNames="fade"
             >
               <Switch location={location}>
-                <Route exact path="/scp-react/" render={(props) => <div className="page"><Homepage /></div>} />
-                <Route exact path="/scp-react/mainlist" render={(props) => <div className="page"><MainlistView db_address={this.state.db_address} /></div>} />
-                <Route exact path="/scp-react/hubs" render={(props) => <div className="page"><Hubs db_address={this.state.db_address} /></div>} />
-                <Route exact path="/scp-react/page/:url" render={(props) => <div className="page"><Page db_address={this.state.db_address} url={props.match.params.url} /></div>} />
+                <Route exact path={process.env.PUBLIC_URL + "/"} render={(props) => <div className="page"><Homepage /></div>} />
+                <Route exact path={process.env.PUBLIC_URL + "/mainlist"} render={(props) => <div className="page"><MainlistView db_address={this.state.db_address} /></div>} />
+                <Route exact path={process.env.PUBLIC_URL + "/hubs"} render={(props) => <div className="page"><Hubs db_address={this.state.db_address} /></div>} />
+                <Route exact path={process.env.PUBLIC_URL + "/page/:url"} render={(props) => <div className="page"><Page db_address={this.state.db_address} url={props.match.params.url} /></div>} />
               </Switch>
             </CSSTransition>
           </TransitionGroup>

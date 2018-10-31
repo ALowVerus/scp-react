@@ -19,7 +19,7 @@ class Navbar extends Component {
         <div className="container">
           <Link
           onClick={() => this.props.handleLinkClick("homepage")}
-          to="/scp-react/">
+          to={process.env.PUBLIC_URL + "/"}>
             <div className="d-inline-flex flex-row">
               <div className="p-2 no-padding">
                 <img className="navbar-icon" src={brand} alt="SCP Foundation" />
@@ -42,7 +42,7 @@ class Navbar extends Component {
                 return(
                   <li className="nav-item" key={link.id}>
                     <Link className={"nav-link " + this.checkActive(link.target)}
-                    to={"/scp-react/" + link.target} onClick={() => this.props.handleLinkClick(link.target)}>
+                    to={process.env.PUBLIC_URL + "/" + link.target} onClick={() => this.props.handleLinkClick(link.target)}>
                       {link.name}
                     </Link>
                   </li>

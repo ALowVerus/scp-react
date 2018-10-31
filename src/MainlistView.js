@@ -87,7 +87,7 @@ class MainlistView extends Component {
                 let scip_number = scip.url.substr(28);
                 let encoded_url = encodeURIComponent(scip.url);
                 return (
-                  <Link to={"/scp-react/page/" + encoded_url} key={scip_number}>
+                  <Link to={process.env.PUBLIC_URL + "/page/" + encoded_url} key={scip_number}>
                     <li className="list-group-item">
                       SCP-{scip_number}
                     </li>
