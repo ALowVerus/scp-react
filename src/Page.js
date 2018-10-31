@@ -5,30 +5,113 @@ class Page extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      innerHTML: ""
+      innerHTML: "",
+      pageTags: [],
     };
+    console.log(this.props.url);
   }
 
   componentDidMount() {
+    console.log(this.props.url);
     axios
       .get(
-          this.props.db_address + "pages?url=" + this.props.url,
-          {headers: {"Access-Control-Allow-Origin": "*"}}
+        this.props.db_address + "pages?url=" + this.props.url,
+        {headers: {"Access-Control-Allow-Origin": "*"}}
       )
       .then(response => {
-        this.setState({ innerHTML: response.data.html });
+        this.setState({
+          innerHTML: response.data[0].html,
+          pageTags: response.data[1]
+        });
         console.log(response);
+        // Check for yui boxes, evade the null scenario
+        var yui_sets = document.getElementsByClassName('yui-navset');
+        if (yui_sets !== null) {
+          let yui_set, yui_nav_ul, yui_nav, yui_content;
+          // Iterate through the navs of each set to find the active tabs
+          for (var yui_set_count = 0; yui_set_count < yui_sets.length; yui_set_count ++) {
+            yui_set = yui_sets[yui_set_count];
+            yui_nav_ul = yui_set.getElementsByClassName('yui-nav')[0];
+            yui_nav_ul.className = "yui-nav nav navbar-nav";
+            yui_nav = yui_nav_ul.children;
+            yui_content = yui_set.getElementsByClassName('yui-content')[0].children;
+            // Give each nav and tab and appropriate ID for testing purposes
+            for (var tab_count = 0; tab_count < yui_nav.length; tab_count ++) {
+              yui_nav[tab_count].onclick = (event) => { this.updateTabs(event); }
+              yui_nav[tab_count].id = "nav-"+ yui_set_count.toString() + "-" + tab_count.toString()
+              yui_nav[tab_count].innerHTML = yui_nav[tab_count].textContent;
+              yui_content[tab_count].id = "content-"+ yui_set_count.toString() + "-" + tab_count.toString()
+            }
+          }
+        }
       })
       .catch(error => {
         this.setState({ innerHTML: "ERROR 404: Page not found." })
         console.log(error);
-      })
+      });
+  }
+
+  updateTabs(event){
+    event = event || window.event; // IE
+    var target = event.target || event.srcElement; // IE
+    var target_id_sanitized = target.id.split("-");
+    var yui_index = target_id_sanitized[1];
+    var tab_index = target_id_sanitized[2];
+    // Get all yuis
+    var yui_sets = document.getElementsByClassName('yui-navset');
+    let yui_set, yui_nav, yui_content
+    yui_set = yui_sets[yui_index];
+    yui_nav = yui_set.getElementsByClassName('yui-nav nav navbar-nav')[0].children;
+    yui_content = yui_set.getElementsByClassName('yui-content')[0].children;
+    // Identify the current active tab
+    var current_tab_found = false;
+    var old_index = -1;
+    while (current_tab_found === false) {
+      old_index += 1;
+      if (yui_nav[old_index].className === "selected") {
+        current_tab_found = true;
+      }
+    }
+    // Identify the new and old navs and contents
+    var yui_nav_old = yui_nav[old_index]
+    var yui_nav_new = yui_nav[tab_index]
+    var yui_content_old = yui_content[old_index]
+    var yui_content_new = yui_content[tab_index]
+    // Give the new and old navs and contents their appropriate attributes
+    yui_nav_old.className = "";
+    yui_nav_new.className = "selected";
+    yui_content_old.style = "display:none";
+    yui_content_new.style = "";
   }
 
   render() {
     return (
       <div className="Page">
-        <div className="container" dangerouslySetInnerHTML={{__html:this.state.innerHTML}} />
+        <div className="Page-html col-12" dangerouslySetInnerHTML={{__html:this.state.innerHTML}} />
+        <div className="Page-footer">
+          <div className="d-flex flex-wrap btn btn-secondary justify-content-around">
+            {this.state.pageTags.map(function(pageTag){return(
+              <div className="pd-2" key={pageTag.id}>
+                {pageTag.name}
+              </div>
+            )})}
+          </div>
+          <div className="d-flex justify-content-center" >
+            <div className="p-2">Discuss</div>
+            <div className="p-2">Rate</div>
+            <div className="p-2">Edit</div>
+          </div>
+          <div className="d-flex justify-content-around App">
+            <div className="p-2">
+              Unless otherwise stated, the content
+              of this page is licensed under <br />
+              <a href="http://creativecommons.org/licenses/by-sa/3.0/"
+              target="_blank" rel="noopener noreferrer">
+                Creative Commons Attribution-ShareAlike 3.0 License
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import './App.scss';
 import Navbar from './Navbar.js';
 import Homepage from './Homepage.js';
 import MainlistView from './MainlistView.js';
+import Hubs from './Hubs.js';
 import Page from './Page.js';
 
 class App extends Component {
@@ -33,9 +34,10 @@ class App extends Component {
               classNames="fade"
             >
               <Switch location={location}>
-                <Route exact path="/" component={() => <div className="page"><Homepage /></div>} />
-                <Route exact path="/mainlist/" component={() => <div className="page"><MainlistView db_address={this.state.db_address} /></div>} />
-                <Route exact path="/testpage/" component={() => <div className="page"><Page db_address={this.state.db_address} url="http://www.scp-wiki.net/scp-173" /></div>} />
+                <Route exact path="/" render={(props) => <div className="page"><Homepage /></div>} />
+                <Route exact path="/mainlist" render={(props) => <div className="page"><MainlistView db_address={this.state.db_address} /></div>} />
+                <Route exact path="/hubs" render={(props) => <div className="page"><Hubs db_address={this.state.db_address} /></div>} />
+                <Route exact path="/page/:url" render={(props) => <div className="page"><Page db_address={this.state.db_address} url={props.match.params.url} /></div>} />
               </Switch>
             </CSSTransition>
           </TransitionGroup>

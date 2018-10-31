@@ -39,6 +39,11 @@ body    {
   min-height: calc(100vh - 131px);
 }
 
+.set-height {
+  overflow-y: scroll;
+  max-height: calc(75vh);
+}
+
 .navbar-icon {
   height: 60px;
 }
@@ -77,4 +82,14 @@ body    {
 .fade-exit-active {
   opacity: 0.01;
   transition: opacity 500ms ease-in;
+}
+
+/* yui-nav */
+.yui-nav {
+  .yui-li {
+
+  }
+  .yui-content {
+
+  }
 }

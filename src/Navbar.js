@@ -15,7 +15,7 @@ class Navbar extends Component {
   render() {
     return (
       <div className="Navbar">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top" id="navbar">
         <div className="container">
           <Link
           onClick={() => this.props.handleLinkClick("homepage")}
