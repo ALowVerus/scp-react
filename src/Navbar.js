@@ -19,7 +19,7 @@ class Navbar extends Component {
         <div className="container">
           <Link
           onClick={() => this.props.handleLinkClick("homepage")}
-          to="/">
+          to="/scp-react/">
             <div className="d-inline-flex flex-row">
               <div className="p-2 no-padding">
                 <img className="navbar-icon" src={brand} alt="SCP Foundation" />
