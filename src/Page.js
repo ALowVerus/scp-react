@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Disqus from 'disqus-react';
 
 class Page extends Component {
   constructor(props) {
@@ -85,6 +86,12 @@ class Page extends Component {
   }
 
   render() {
+    const disqusShortname = 'example';
+    const disqusConfig = {
+        url: this.props.url,
+        identifier: this.props.url,
+        title: this.props.url,
+    };
     return (
       <div className="Page">
         <div className="Page-html col-12" dangerouslySetInnerHTML={{__html:this.state.innerHTML}} />
@@ -100,6 +107,12 @@ class Page extends Component {
             <div className="p-2">Discuss</div>
             <div className="p-2">Rate</div>
             <div className="p-2">Edit</div>
+          </div>
+          <div className="col-md-8 mx-auto">
+            <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
+              Comments
+            </Disqus.CommentCount>
+            <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
           </div>
           <div className="d-flex justify-content-around App">
             <div className="p-2">
