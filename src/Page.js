@@ -8,6 +8,7 @@ class Page extends Component {
     this.state = {
       innerHTML: "",
       pageTags: [],
+      discussOpened: false
     };
     console.log(this.props.url);
   }
@@ -85,10 +86,21 @@ class Page extends Component {
     yui_content_new.style = "";
   }
 
+  discussClicked() {
+    var discussion = document.getElementById('discussion');
+    if (this.state.discussOpened === true) {
+      discussion.style = "";
+      this.setState({ discussOpened: false });
+    } else {
+      discussion.style = "display:block";
+      this.setState({ discussOpened: true });
+    }
+  }
+
   render() {
     const disqusShortname = 'example';
     const disqusConfig = {
-        url: this.props.url,
+        url: window.location.href,
         identifier: this.props.url,
         title: this.props.url,
     };
@@ -104,11 +116,11 @@ class Page extends Component {
             )})}
           </div>
           <div className="d-flex justify-content-center" >
-            <div className="p-2">Discuss</div>
+            <div className="p-2" onClick={() => this.discussClicked()}>Discuss</div>
             <div className="p-2">Rate</div>
             <div className="p-2">Edit</div>
           </div>
-          <div className="col-md-8 mx-auto">
+          <div className="Discussion col-md-8 mx-auto" id="discussion">
             <Disqus.CommentCount shortname={disqusShortname} config={disqusConfig}>
               Comments
             </Disqus.CommentCount>

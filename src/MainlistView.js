@@ -52,6 +52,7 @@ class MainlistView extends Component {
   }
 
   render() {
+    var scip_count = parseInt(this.state.hundreds.toString() + "00");
     return (
       <div className="MainlistView row">
         <div className="col-md-12">
@@ -82,19 +83,28 @@ class MainlistView extends Component {
         <div className="col-6">
           <h3>SCiP:</h3>
           <ul className="list-group page-limited set-height">
-            {this.state.scips.map(function(scip){
-              if (scip !== null) {
-                let scip_number = scip.url.substr(28);
-                let encoded_url = encodeURIComponent(scip.url);
-                return (
-                  <Link to={process.env.PUBLIC_URL + "/page/" + encoded_url} key={scip_number}>
-                    <li className="list-group-item">
-                      SCP-{scip_number}
+            {
+              this.state.scips.map(function(scip){
+                scip_count += 1;
+                if (scip !== null) {
+                  let scip_number = scip.url.substr(28);
+                  let encoded_url = encodeURIComponent(scip.url);
+                  return (
+                    <Link to={process.env.PUBLIC_URL + "/page/" + encoded_url} key={scip_number}>
+                      <li className="list-group-item">
+                        SCP-{scip_number}
+                      </li>
+                    </Link>
+                  )
+                } else {
+                  return (
+                    <li className="list-group-item" key={scip_count}>
+                      Open Entry
                     </li>
-                  </Link>
-                )
-              }
-            })}
+                  )
+                }
+              })
+            }
           </ul>
         </div>
       </div>
