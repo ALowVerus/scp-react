@@ -12,7 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      db_address: "http://localhost:3000/",
+      db_address: "https://scp-rails-api.herokuapp.com/",
       page: "homepage",
     }
     this.handleLinkClick = this.handleLinkClick.bind(this);
