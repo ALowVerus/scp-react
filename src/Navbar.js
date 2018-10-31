@@ -42,7 +42,7 @@ class Navbar extends Component {
                 return(
                   <li className="nav-item" key={link.id}>
                     <Link className={"nav-link " + this.checkActive(link.target)}
-                    to={"/" + link.target} onClick={() => this.props.handleLinkClick(link.target)}>
+                    to={"/scp-react/" + link.target} onClick={() => this.props.handleLinkClick(link.target)}>
                       {link.name}
                     </Link>
                   </li>
