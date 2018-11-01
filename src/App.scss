@@ -15,23 +15,9 @@ body    {
   text-align: left;
 }
 
-.Discussion {
-  display: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.homepage-header {
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .page {
@@ -88,7 +74,8 @@ body    {
   transition: opacity 500ms ease-in;
 }
 
-/* yui-nav */
+
+/* Page CSS */
 .yui-nav {
   .yui-li {
 
@@ -96,4 +83,44 @@ body    {
   .yui-content {
 
   }
+}
+.Discussion {
+  display: none;
+}
+#page-title {
+  border-color: #bbb;
+  padding: 0 0 0.25em;
+  margin: 0 0 0.6em;
+  font-size: 200%;
+  border-bottom: 1px solid #666;
+}
+.scp-image-block {
+  border: solid 1px #666;
+  width: auto !important;
+}
+.scp-image-block.block-right {
+    float: right;
+    clear: right;
+    margin: 1em;
+}
+.scp-image-block .scp-image-caption {
+    background-color: #eee;
+    border-top: solid 1px #666;
+    padding: 2px 0;
+    font-size: 80%;
+    font-weight: bold;
+    text-align: center;
+    border-top: solid 1px #666;
+    width: 100%;
+}
+.page-tags, #page-options-container, .page-rate-widget-box {
+  display: none;
+}
+.Page-footer {
+  margin-top: 50px;
+}
+.footnotes-footer {
+  border: solid 1px #666;
+  margin-top: 50px;
+  padding: 10px;
 }
