@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Disqus from 'disqus-react';
+import ReactDOM from 'react-dom';
 
 class Page extends Component {
   constructor(props) {
@@ -12,15 +13,13 @@ class Page extends Component {
       pageTags: [],
       discussOpened: false
     };
-    console.log(this.props.url);
   }
 
   componentDidMount() {
-    console.log(this.props.url);
     // Grab actual page
     axios
       .get(
-        this.props.db_address + "pages?url=" + this.props.url,
+        this.props.db_address + "pages?url=http://www.scp-wiki.net/" + this.props.url,
         {headers: {"Access-Control-Allow-Origin": "*"}}
       )
       .then(response => {
@@ -32,8 +31,6 @@ class Page extends Component {
         console.log(response);
         // Conform page to react standards
         this.sanitizePage();
-        // Grab page rating
-        this.grabAggregateRatings(response.data[0].id);
       })
       .catch(error => {
         this.setState({ innerHTML: "ERROR 404: Page not found." })
@@ -41,30 +38,11 @@ class Page extends Component {
       });
   }
 
-  grabAggregateRatings(page_id) {
-    // axios
-    //   .get(
-    //     this.props.db_address + "ratings?url=" + this.props.url,
-    //     {headers: {"Access-Control-Allow-Origin": "*"}}
-    //   )
-    //   .then(response => {
-    //     this.setState({
-    //       innerHTML: response.data[0].html,
-    //       pageTags: response.data[1]
-    //     });
-    //     console.log(response);
-    //     this.sanitizePage();
-    //   })
-    //   .catch(error => {
-    //     this.setState({ innerHTML: "ERROR 404: Page not found." })
-    //     console.log(error);
-    //   });
-  }
-
   sanitizePage() {
+    const node = ReactDOM.findDOMNode(this);
     // SANITIZE YUIs
     // Check for yui boxes, evade the null scenario
-    var yui_sets = document.getElementsByClassName('yui-navset');
+    var yui_sets = node.getElementsByClassName('yui-navset');
     if (yui_sets !== null) {
       let yui_set, yui_nav_ul, yui_nav, yui_content;
       // Iterate through the navs of each set to find the active tabs
@@ -84,7 +62,7 @@ class Page extends Component {
       }
     }
     // SANITIZE COLLAPSIBLES
-    var collapsibles = document.getElementsByClassName('collapsible-block');
+    var collapsibles = node.getElementsByClassName('collapsible-block');
     if (collapsibles !== null) {
       let collapsible, collapsible_folded, collapsible_unfolded, links_folded, links_unfolded;
       for (var collapsible_count = 0; collapsible_count < collapsibles.length; collapsible_count ++) {
@@ -111,6 +89,15 @@ class Page extends Component {
         this.setState({ collapsibleToggles: newCollapsibleToggles });
       }
     }
+    // SANITIZE RELATIVE LINKS
+    const page_links = node.querySelector('.Page-html').querySelectorAll('a');
+    console.log(page_links);
+    for (var link_count = 0; link_count < page_links.length; link_count ++) {
+      if (page_links[link_count].pathname.charAt(0) === "/") {
+        console.log(page_links[link_count]);
+        page_links[link_count].pathname = "#" + page_links[link_count].pathname;
+      }
+    }
   }
 
   updateTabs(event){
@@ -120,7 +107,7 @@ class Page extends Component {
     var yui_index = target_id_sanitized[1];
     var tab_index = target_id_sanitized[2];
     // Get all yuis
-    var yui_sets = document.getElementsByClassName('yui-navset');
+    var yui_sets = ReactDOM.findDOMNode(this).getElementsByClassName('yui-navset');
     let yui_set, yui_nav, yui_content
     yui_set = yui_sets[yui_index];
     yui_nav = yui_set.getElementsByClassName('yui-nav nav navbar-nav')[0].children;
@@ -147,11 +134,12 @@ class Page extends Component {
   }
 
   switchCollapse(event) {
+    const node = ReactDOM.findDOMNode(this);
     event = event || window.event; // IE
     var target = event.target || event.srcElement; // IE
     var collapsible_index = target.id.split("-")[2];
-    var collapsible_folded = document.getElementById("collapsible-" + collapsible_index.toString() + "-folded");
-    var collapsible_unfolded = document.getElementById("collapsible-" + collapsible_index.toString() + "-unfolded");
+    var collapsible_folded = node.querySelector("#collapsible-" + collapsible_index.toString() + "-folded");
+    var collapsible_unfolded = node.querySelector("#collapsible-" + collapsible_index.toString() + "-unfolded");
     if (this.state.collapsibleToggles[collapsible_index] === true) {
       collapsible_folded.style = "display:block";
       collapsible_unfolded.style = "display:none";
@@ -168,7 +156,7 @@ class Page extends Component {
   }
 
   discussClicked() {
-    var discussion = document.getElementById('discussion');
+    var discussion = ReactDOM.findDOMNode(this).querySelector('#discussion');
     if (this.state.discussOpened === true) {
       discussion.style = "";
       this.setState({ discussOpened: false });

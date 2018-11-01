@@ -33,9 +33,9 @@ class Hubs extends Component {
           <h1>Canons</h1>
           <ul className="list-group">
             {this.state.canons.map(function(canon){
-              let encoded_url = encodeURIComponent(canon.url);
+              let encoded_url = encodeURIComponent(canon.url.substr(24));
               return (
-                <Link to={process.env.PUBLIC_URL + "page/" + encoded_url} key={encoded_url}>
+                <Link to={process.env.PUBLIC_URL + "/" + encoded_url} key={encoded_url}>
                   <li className="list-group-item">
                     {canon.url}
                   </li>
