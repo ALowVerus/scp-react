@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/scp-react/static/css/main.bd0f16bb.chunk.css"
   },
   {
-    "revision": "3681e3fa2ce0c29049f3fffa57d15c66",
+    "revision": "12bb7f03b5eb49f1afffc80ae0019ea6",
     "url": "/scp-react/index.html"
   }
 ];
