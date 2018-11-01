@@ -89,12 +89,10 @@ class Page extends Component {
         this.setState({ collapsibleToggles: newCollapsibleToggles });
       }
     }
-    // SANITIZE RELATIVE LINKS
+    // SANITIZE RELATIVE LINKS - Needs more work
     const page_links = node.querySelector('.Page-html').querySelectorAll('a');
-    console.log(page_links);
     for (var link_count = 0; link_count < page_links.length; link_count ++) {
       if (page_links[link_count].pathname.charAt(0) === "/") {
-        console.log(page_links[link_count]);
         page_links[link_count].pathname = "#" + page_links[link_count].pathname;
       }
     }
